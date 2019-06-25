@@ -1,6 +1,8 @@
 from flask import Flask, render_template, url_for, request
 from flask_bootstrap import Bootstrap
 from flask_scss import Scss
+from flask import jsonify
+
 from joblib import dump, load
 import pandas as pd
 import numpy as np
@@ -31,8 +33,8 @@ def iris_model(data):
 @app.route('/', methods = ['GET','POST'])
 def index2():
 
-    if request.method == 'GET':
-        return render_template('index2.html')
+    # if request.method == 'GET':
+    #     return render_template('index2.html')
 
     if request.method == 'POST':
         namequery1 = request.form['sepal_length']
@@ -41,7 +43,7 @@ def index2():
         namequery4 = request.form['petal_width']
         data = [float(namequery1), float(namequery2), float(namequery3), float(namequery4)]
         flower_pred = int(iris_model(data)[0])
-        return render_template('index2.html', prediction=str(flower_pred))
+        return jsonify(flower_pred)
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
